@@ -30,7 +30,7 @@ endif()
 
 find_package(Threads REQUIRED)
 find_package(JACK REQUIRED)
-find_package(PythonInterp REQUIRED)
+find_package(PythonInterp 2 REQUIRED)
 find_package(Qt4)
 find_package(FFmpeg)
 find_package(Swscale)
