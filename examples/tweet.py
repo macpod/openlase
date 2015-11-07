@@ -16,6 +16,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
+# Notes:
+# The twitter api used by this example can be installed via:
+# pip install twitter
+#
+# To use this you will need to create a Twitter application in order
+# to obtain the Consumer Key and Consumer Secret
 import pylase as ol
 from math import pi
 import threading
@@ -23,6 +29,15 @@ import twitter
 import time
 import math
 import sys
+
+# Access token
+#token = ''
+# Access token secret
+#token_key = ''
+# Consumer key
+con_secret = 'Your Consumer Key (API Key) goes here'
+# Consumer Secret
+con_secret_key = 'Consumer Secret (API Secret) goes here'
 
 class LaserThread(threading.Thread):
 	def __init__(self):
@@ -113,14 +128,14 @@ olt.start()
 print "Thread running"
 
 try:
-	api = twitter.Twitter(domain="search.twitter.com")
+	api = twitter.Twitter(auth=twitter.OAuth(token, token_key, con_secret, con_secret_key))
 	since_id = None
 
 	tweets = []
 
 	while True:
 		try:
-			s = api.search(q="#EE20")["results"]
+			s = api.search.tweets(q=search)["statuses"]
 		except Exception, e:
 			olt.tweets = ["Twitter Error: NO FUNCIONA INTERNEEEEE!!!"]
 			time.sleep(1)
@@ -139,7 +154,7 @@ try:
 		strings = []
 		print "New tweetset:"
 		for t in tweets:
-			itext = u"@%s: %s"%(t["from_user_name"], t["text"])
+			itext = u"@%s: %s"%(t["user"]["screen_name"], t["text"])
 			itext = itext.replace("&gt;", ">").replace("&lt;", "<").replace("&quot;", '"').replace("\n", " ")
 			text = u""
 			for c in itext:
